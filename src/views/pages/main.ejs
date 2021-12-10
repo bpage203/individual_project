@@ -1,0 +1,113 @@
+<%- include('../partials/header') %>
+<%- include('../partials/menu') %>
+<% var cocktail = '0'; %>
+<br />
+<div class="container">
+  <form class="form-signin" onsubmit="update_cocktail()" id="tag_input">
+    <script>
+    var form = document.getElementById("tag_input");
+    function handleForm(event) { event.preventDefault(); }
+    form.addEventListener("submit", handleForm);
+    </script>
+    <label for="cocktail" class="sr-only"></label>
+    <input
+      type="text"
+      id="tag"
+      class="form-control"
+      placeholder="Enter cocktail name"
+      required
+      autofocus
+    />
+  </form>
+</div>
+<div class="container" margin-left="auto" margin-right="auto">
+  <button onclick="makeApiCall("<%= cocktail %>")">
+      Search
+  </button>
+</div>
+<div class="container-lg" id="cocktail_card" style="margin-top: 2%;">
+  <% if (error) { %>
+    <div class="alert alert-danger"><%= message %></div>
+  <% } %>
+  <%
+    if (item) { %>
+      <div class="container">
+        <div class="row">
+          <div class="p-3 border bg-light">
+            <div class="col-mb-4">
+              <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                  <img src=<%= item.image %>>
+                  <h5 class="card-title"><b><%= item.title %></b></h5>
+                  <b>Alcoholic</b>
+                  <p class="card-text"><%= item.alcoholic %></p>
+                  <b>Glass Type</b>
+                  <p class="card-text"><%= item.glass %></p>
+                  <b>Instructions</b>
+                  <p class="card-text"><%= item.instructions %></p>
+                  <div class="text-center">
+                    <a
+                      href="#myModal"
+                      class="btn btn-info"
+                      data-toggle="modal"
+                      onclick="openModal()"
+                      >Add Review
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% }; %>
+</div>
+
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog modal-login">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Review</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            name="cocktailName"
+            placeholder="Cocktail Name"
+            required="required"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            name="review"
+            placeholder="Write Review Here"
+            required="required"
+          />
+        </div>
+        <div class="form-group">
+          <form action="/post_review" method="post">
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<%- include('../partials/footer') %>
